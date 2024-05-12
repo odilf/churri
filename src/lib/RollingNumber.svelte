@@ -5,34 +5,35 @@
 	let {
 		start,
 		type = "tens",
+		period,
 		children,
 		easing = true
 	}: {
 		start: number;
 		type: "tens" | "hundreds" | "sexagesimal";
-		children: Snippet;
+		period: number;
+		children?: Snippet;
 		easing?: boolean;
 	}  = $props();
 	
-	const setup = {
+	const setup: Record<typeof type, { seximal?: boolean, period: number }[]> = {
 		tens: [
 			{
-				seximal: false,
 				period: 10,
 			},
 			{
-				seximal: false,
 				period: 1,
 			},
 		],
 
 		hundreds: [
 			{
-				seximal: false,
+				period: 100,
+			},
+			{
 				period: 10,
 			},
 			{
-				seximal: false,
 				period: 1,
 			},
 		],
@@ -43,46 +44,24 @@
 				period: 6,
 			},
 			{
-				seximal: false,
 				period: 1,
 			},
 		]
-	} satisfies Record<typeof type, unknown>
-
-	const startModuli = [10, 1]
+	}
 </script>
 
-<!-- {#snippet digit(modulus: number, { seximal }: { seximal: boolean })} -->
-<!-- 	<!-- {@const modulus = 10 ** position} --> -->
-<!---->
-<!-- 	<RollingDigit  -->
-<!-- 		start={start / modulus} -->
-<!-- 		period={rollingDigitProps.period * modulus * 10} -->
-<!-- 		{seximal} -->
-<!-- 		{easing} -->
-<!-- 	></RollingDigit> -->
-<!-- {/snippet} -->
-
 <div class="flex">
-	{#each setup[type] as { seximal, period }, i}
+	{#each setup[type] as { seximal, period: digitPeriod }, i}
+		{@const position = setup[type].length - i - 1}
+		{@const startModulus = 10 ** position}
+
 		<RollingDigit
-			start={start / startModuli[i]}
-			period={period * 1000 * 10}
+			start={start / startModulus}
+			period={digitPeriod * period * 10}
 			{seximal}
 			{easing}
 		></RollingDigit>
 	{/each}
-	<!-- {#if type === "tens"} -->
-	<!-- 	{@render digit(100, { seximal: false })} -->
-	<!-- 	{@render digit(10, { seximal: false })} -->
-	<!-- {:else if type === "sexagesimal"} -->
-	<!-- 	{@render digit(600, { seximal: true })} -->
-	<!-- 	{@render digit(10, { seximal: false })} -->
-	<!-- {:else if type === "hundreds"} -->
-	<!-- 	{@render digit(1000, { seximal: false })} -->
-	<!-- 	{@render digit(100, { seximal: false })} -->
-	<!-- 	{@render digit(10, { seximal: false })} -->
-	<!-- {/if} -->
 
 	<span class="pl-[0.3ch]"> {@render children()} </span>
 </div>

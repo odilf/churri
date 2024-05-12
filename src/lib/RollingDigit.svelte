@@ -22,7 +22,7 @@
 		[...Array.from({ length }, (_, i) => i), 0].toReversed(),
 	);
 
-	let delay = $derived(period * ((start % length) / length - 1 - 0.01));
+	let delay = $derived(period * ((start % length) / length - 1));
 </script>
 
 <div class="main">

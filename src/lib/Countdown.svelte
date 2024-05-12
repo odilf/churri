@@ -18,18 +18,53 @@
 	onDestroy(() => clearInterval(interval));
 </script>
 
-<div>
-	{time.weeks} semanas
+{#snippet weeks()}
+	<RollingNumber start={time.weeks} period={periods.week} type="hundreds">
+		semanas
+	</RollingNumber>
+{/snippet}
+
+{#snippet days()}
+	<!-- TODO: Make type "units" instead of "tens" -->
+	<RollingNumber start={time.days} period={periods.day} type="tens">
+		días
+	</RollingNumber>
+{/snippet}
+
+{#snippet hours()}
+	<RollingNumber start={time.hours} period={periods.hour} type="tens">
+		horas
+	</RollingNumber>
+{/snippet}
+
+{#snippet minutes()}
+	<RollingNumber start={time.minutes} period={periods.minute} type="sexagesimal">
+		minutos
+	</RollingNumber>
+{/snippet}
+
+{#snippet seconds()}
+	<RollingNumber start={time.seconds} period={periods.second} type="sexagesimal">
+		seconds
+	</RollingNumber>
+{/snippet}
+
+<div class="flex font-serif text-8xl">
+	{@render weeks()}
 </div>
 
-<div class="flex font-serif text-3xl">
-	<RollingNumber start={time.seconds} type="sexagesimal">
-		test
-	</RollingNumber>
+<div class="flex font-serif text-8xl">
+	{@render days()}
 </div>
 
-<div class="flex font-serif text-3xl">
-	<RollingNumber start={5.0} type="sexagesimal">
-		test2
-	</RollingNumber>
+<div class="flex font-serif text-8xl">
+	{@render hours()}
+</div>
+
+<div class="flex font-serif text-8xl">
+	{@render minutes()}
+</div>
+
+<div class="flex font-serif text-8xl">
+	{@render seconds()}
 </div>
