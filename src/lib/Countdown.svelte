@@ -37,12 +37,6 @@
 	</div>
 </div>
 
-<!-- <style> -->
-<!-- 	.main { -->
-<!-- 		transform: scale(calc(var(--viewport-width) / 380)); -->
-<!-- 	} -->
-<!-- </style> -->
-
 {#snippet weeks()}
 	<RollingNumber start={time.weeks} period={periods.week} type="hundreds">
 		semanas
