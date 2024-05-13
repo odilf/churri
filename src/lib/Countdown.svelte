@@ -18,6 +18,34 @@
 	onDestroy(() => clearInterval(interval));
 </script>
 
+<div class="flex font-serif text-9xl">
+	{@render weeks()}
+</div>
+
+<div class="flex font-serif text-8xl">
+	{@render days()}
+</div>
+
+<div class="flex font-serif text-8xl">
+	{@render hours()}
+</div>
+
+<div class="flex font-serif text-4xl">
+	{@render minutes()}
+</div>
+
+<div class="flex font-serif text-4xl">
+	{@render seconds()}
+</div>
+
+<style>
+	.sideways {
+		writing-mode: vertical-rl;
+		text-orientation: mixed;
+	}
+</style>
+
+
 {#snippet weeks()}
 	<RollingNumber start={time.weeks} period={periods.week} type="hundreds">
 		semanas
@@ -45,26 +73,6 @@
 
 {#snippet seconds()}
 	<RollingNumber start={time.seconds} period={periods.second} type="sexagesimal">
-		seconds
+		segundos
 	</RollingNumber>
 {/snippet}
-
-<div class="flex font-serif text-8xl">
-	{@render weeks()}
-</div>
-
-<div class="flex font-serif text-8xl">
-	{@render days()}
-</div>
-
-<div class="flex font-serif text-8xl">
-	{@render hours()}
-</div>
-
-<div class="flex font-serif text-8xl">
-	{@render minutes()}
-</div>
-
-<div class="flex font-serif text-8xl">
-	{@render seconds()}
-</div>

@@ -62,6 +62,8 @@
 			{easing}
 		></RollingDigit>
 	{/each}
-
-	<span class="pl-[0.3ch]"> {@render children()} </span>
+	
+	{#if children}
+		<span class="pl-[0.3ch]"> {@render children()} </span>
+	{/if}
 </div>
