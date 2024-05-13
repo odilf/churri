@@ -24,6 +24,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@fontsource/abril-fatface": "^5.0.20"
+		"@fontsource/abril-fatface": "^5.0.20",
+		"@sveltejs/adapter-node": "^5.0.1"
 	}
 }
