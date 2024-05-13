@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { onDestroy } from "svelte";
 	import { timeUntil, periods } from "./time";
 	import RollingNumber from "./RollingNumber.svelte";
+    import { browser } from "$app/environment";
 
 	let { target }: { target: Date } = $props();
 
@@ -10,41 +10,38 @@
 	 */
 	let time = $state(timeUntil(target));
 
-	let updatedTime = $state(timeUntil(target));
-	const interval = setInterval(() => {
-		updatedTime = timeUntil(target);
-	}, 10);
-
-	onDestroy(() => clearInterval(interval));
+	let viewportWidth: number = $state(browser ? window.innerWidth : 0);
 </script>
 
-<div class="flex font-serif text-9xl">
-	{@render weeks()}
+<svelte:window bind:outerWidth={viewportWidth}></svelte:window>
+
+<div class="leading-none" style:--viewport-width={viewportWidth}>
+	<div class="flex font-serif text-[14vw]">
+		{@render weeks()}
+	</div>
+
+	<div class="flex font-serif text-[10vw]">
+		{@render days()}
+	</div>
+
+	<div class="flex font-serif text-[8vw]">
+		{@render hours()}
+	</div>
+
+	<div class="flex font-serif text-[5vw]">
+		{@render minutes()}
+	</div>
+
+	<div class="flex font-serif text-[5vw]">
+		{@render seconds()}
+	</div>
 </div>
 
-<div class="flex font-serif text-8xl">
-	{@render days()}
-</div>
-
-<div class="flex font-serif text-8xl">
-	{@render hours()}
-</div>
-
-<div class="flex font-serif text-4xl">
-	{@render minutes()}
-</div>
-
-<div class="flex font-serif text-4xl">
-	{@render seconds()}
-</div>
-
-<style>
-	.sideways {
-		writing-mode: vertical-rl;
-		text-orientation: mixed;
-	}
-</style>
-
+<!-- <style> -->
+<!-- 	.main { -->
+<!-- 		transform: scale(calc(var(--viewport-width) / 380)); -->
+<!-- 	} -->
+<!-- </style> -->
 
 {#snippet weeks()}
 	<RollingNumber start={time.weeks} period={periods.week} type="hundreds">
