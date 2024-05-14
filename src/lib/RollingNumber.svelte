@@ -1,53 +1,36 @@
 <script lang="ts">
-    import type { Snippet } from "svelte";
+	import type { Snippet } from "svelte";
 	import RollingDigit from "./RollingDigit.svelte";
 
 	let {
 		start,
 		type = "tens",
 		period,
+		paused = false,
 		children,
-		easing = true
 	}: {
 		start: number;
-		type: "tens" | "hundreds" | "sexagesimal";
+		type: "units" | "tens" | "hundreds" | "sexagesimal";
 		period: number;
+		paused?: boolean;
 		children?: Snippet;
-		easing?: boolean;
-	}  = $props();
-	
-	const setup: Record<typeof type, { seximal?: boolean, period: number }[]> = {
-		tens: [
-			{
-				period: 10,
-			},
-			{
-				period: 1,
-			},
-		],
+	} = $props();
 
-		hundreds: [
-			{
-				period: 100,
-			},
-			{
-				period: 10,
-			},
-			{
-				period: 1,
-			},
-		],
+	const setup: Record<typeof type, { seximal?: boolean; period: number }[]> = {
+		units: [{ period: 1 }],
+
+		tens: [{ period: 10 }, { period: 1 }],
+
+		hundreds: [{ period: 100 }, { period: 10 }, { period: 1 }],
 
 		sexagesimal: [
 			{
 				seximal: true,
 				period: 6,
 			},
-			{
-				period: 1,
-			},
-		]
-	}
+			{ period: 1 },
+		],
+	};
 </script>
 
 <div class="flex">
@@ -55,14 +38,10 @@
 		{@const position = setup[type].length - i - 1}
 		{@const startModulus = 10 ** position}
 
-		<RollingDigit
-			start={start / startModulus}
-			period={digitPeriod * period * 10}
-			{seximal}
-			{easing}
+		<RollingDigit start={start / startModulus} period={digitPeriod * period * 10} {seximal} {paused}
 		></RollingDigit>
 	{/each}
-	
+
 	{#if children}
 		<span class="pl-[0.3ch]"> {@render children()} </span>
 	{/if}

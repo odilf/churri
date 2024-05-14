@@ -4,10 +4,14 @@
 	animation-iteration-count: infinite;
 	animation-fill-mode: forwards;
 	animation-direction: normal;
-	animation-timing-function: steps(var(--length)), cubic-bezier(0.87, 0, 0.13, 1);
+	animation-timing-function: steps(var(--length)), cubic-bezier(0, 1, 0, 1);
 	animation-delay: var(--delay), var(--delay-mod-period);
 
 	transform: translateY(calc(var(--big-offset) + var(--small-offset)));
+}
+
+.paused {
+	animation-play-state: paused;
 }
 
 @property --big-offset {
@@ -20,10 +24,6 @@
 	syntax: "<percentage>";
 	initial-value: 0%;
 	inherits: true;
-}
-
-.easing {
-	transition-timing-function: cubic-bezier(0.87, 0, 0.13, 1);
 }
 
 @keyframes count {
@@ -41,7 +41,18 @@
 		--small-offset: 0%;
 	}
 
-	10%,
+	15%,
+	100% {
+		--small-offset: -100%;
+	}
+}
+
+@keyframes move-down-aggressive {
+	0% {
+		--small-offset: 0%;
+	}
+
+	1%,
 	100% {
 		--small-offset: -100%;
 	}

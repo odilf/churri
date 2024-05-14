@@ -1,69 +1,48 @@
 <script lang="ts">
-	import { timeUntil, periods } from "./time";
+	import { timeUntil, periods, unitToSpanish, type Unit } from "./time";
 	import RollingNumber from "./RollingNumber.svelte";
-    import { browser } from "$app/environment";
+	import type { ComponentProps } from "svelte";
 
 	let { target }: { target: Date } = $props();
 
-	/**
-	 * Time in ms
-	 */
-	let time = $state(timeUntil(target));
+	let [totalMilliseconds, time] = $state(timeUntil(target));
 
-	let viewportWidth: number = $state(browser ? window.innerWidth : 0);
+	let paused = $state(false);
+
+	setTimeout(() => {
+		paused = true;
+	}, totalMilliseconds);
+
+	const unitToRDType: Record<Unit, ComponentProps<RollingNumber>["type"]> = {
+		millisecond: "hundreds",
+		second: "sexagesimal",
+		minute: "sexagesimal",
+		hour: "tens",
+		day: "tens",
+	};
 </script>
 
-<svelte:window bind:outerWidth={viewportWidth}></svelte:window>
+{#snippet unit(type: Unit)}
+	<RollingNumber type={unitToRDType[type]} start={time[type]} period={periods[type]}>
+		<!-- TODO: Remove "s" when appropriate. Maybe use Intl API -->
+		{unitToSpanish[type]}s
+	</RollingNumber>
+{/snippet}
 
-<div class="leading-none" style:--viewport-width={viewportWidth}>
-	<div class="flex font-serif text-[14vw]">
-		{@render weeks()}
+<div class="leading-none font-serif text-[min(9vw,12vh)]">
+	<div class="text-[3em]">
+		{@render unit("day")}
 	</div>
 
-	<div class="flex font-serif text-[10vw]">
-		{@render days()}
+	<div class="text-[2em]">
+		{@render unit("hour")}
 	</div>
 
-	<div class="flex font-serif text-[8vw]">
-		{@render hours()}
+	<div class="text-[1em]">
+		{@render unit("minute")}
 	</div>
 
-	<div class="flex font-serif text-[5vw]">
-		{@render minutes()}
-	</div>
-
-	<div class="flex font-serif text-[5vw]">
-		{@render seconds()}
+	<div class="text-[1em]">
+		{@render unit("second")}
 	</div>
 </div>
-
-{#snippet weeks()}
-	<RollingNumber start={time.weeks} period={periods.week} type="hundreds">
-		semanas
-	</RollingNumber>
-{/snippet}
-
-{#snippet days()}
-	<!-- TODO: Make type "units" instead of "tens" -->
-	<RollingNumber start={time.days} period={periods.day} type="tens">
-		días
-	</RollingNumber>
-{/snippet}
-
-{#snippet hours()}
-	<RollingNumber start={time.hours} period={periods.hour} type="tens">
-		horas
-	</RollingNumber>
-{/snippet}
-
-{#snippet minutes()}
-	<RollingNumber start={time.minutes} period={periods.minute} type="sexagesimal">
-		minutos
-	</RollingNumber>
-{/snippet}
-
-{#snippet seconds()}
-	<RollingNumber start={time.seconds} period={periods.second} type="sexagesimal">
-		segundos
-	</RollingNumber>
-{/snippet}

@@ -3,14 +3,12 @@ export const [periods, durations] = (() => {
 	const secondsInMinute = 60;
 	const minutesInHour = 60;
 	const hoursInDay = 24;
-	const daysInWeek = 7;
 
 	const millisecond = 1;
 	const second = millisecond * millisecondsInSecond;
 	const minute = second * secondsInMinute;
 	const hour = minute * minutesInHour;
 	const day = hour * hoursInDay;
-	const week = day * daysInWeek;
 
 	return [
 		{
@@ -19,43 +17,46 @@ export const [periods, durations] = (() => {
 			minute,
 			hour,
 			day,
-			week,
 		},
 		{
 			millisecondsInSecond,
 			secondsInMinute,
 			minutesInHour,
 			hoursInDay,
-			daysInWeek,
-		}
+		},
 	];
-})()
+})();
 
 function millisecondsUntil(target: Date) {
-	return Math.max(
-		target.getTime() - Date.now(),
-		0,
-	);
+	return Math.max(target.getTime() - Date.now(), 0);
 }
 
-type Unit = keyof typeof periods;
+export type Unit = keyof typeof periods;
 
 function millisecondsToUnit(milliseconds: number, unit: Unit) {
 	return milliseconds / periods[unit];
 }
 
-export function parseTime(milliseconds: number) {
+export function parseTime(milliseconds: number): [number, Record<Unit, number>] {
 	const toUnit = (unit: Unit) => millisecondsToUnit(milliseconds, unit);
 
-	return {
-		seconds: toUnit('second') % durations.secondsInMinute,
-		minutes: toUnit('minute') % durations.minutesInHour,
-		hours: toUnit('hour') % durations.hoursInDay,
-		days: toUnit('day') % durations.daysInWeek,
-		weeks: toUnit('week')
-	};
+	return [milliseconds, {
+		millisecond: toUnit("millisecond") % durations.millisecondsInSecond,
+		second: toUnit("second") % durations.secondsInMinute,
+		minute: toUnit("minute") % durations.minutesInHour,
+		hour: toUnit("hour") % durations.hoursInDay,
+		day: toUnit("day"),
+	}];
 }
 
 export function timeUntil(target: Date) {
 	return parseTime(millisecondsUntil(target));
 }
+
+export const unitToSpanish: Record<Unit, string> = {
+	millisecond: "milisegundo",
+	second: "segundo",
+	minute: "minuto",
+	hour: "hora",
+	day: "día",
+};
