@@ -15,7 +15,7 @@
 	let length = $derived(seximal ? 6 : 10);
 	let digits = $derived([...Array.from({ length }, (_, i) => i), 0].toReversed());
 
-	let delay = $derived(period * ((start % length) / length - 1 ));
+	let delay = $derived(period * ((start % length) / length - 1 - 0.00725));
 </script>
 
 <div class="h-[1em] overflow-hidden">

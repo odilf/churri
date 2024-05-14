@@ -4,7 +4,7 @@
 	animation-iteration-count: infinite;
 	animation-fill-mode: forwards;
 	animation-direction: normal;
-	animation-timing-function: steps(var(--length)), cubic-bezier(0, 1, 0, 1);
+	animation-timing-function: steps(var(--length)), cubic-bezier(1, 0, 0, 1);
 	animation-delay: var(--delay), var(--delay-mod-period);
 
 	transform: translateY(calc(var(--big-offset) + var(--small-offset)));

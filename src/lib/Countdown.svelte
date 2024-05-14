@@ -23,7 +23,7 @@
 </script>
 
 {#snippet unit(type: Unit)}
-	<RollingNumber type={unitToRDType[type]} start={time[type]} period={periods[type]}>
+	<RollingNumber type={unitToRDType[type]} start={time[type]} period={periods[type]} {paused}>
 		<!-- TODO: Remove "s" when appropriate. Maybe use Intl API -->
 		{unitToSpanish[type]}s
 	</RollingNumber>
