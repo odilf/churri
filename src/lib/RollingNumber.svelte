@@ -7,12 +7,14 @@
 		type = "tens",
 		period,
 		paused = false,
+		rollAggressive = false,
 		children,
 	}: {
 		start: number;
 		type: "units" | "tens" | "hundreds" | "sexagesimal";
 		period: number;
 		paused?: boolean;
+		rollAggressive?: boolean;
 		children?: Snippet;
 	} = $props();
 
@@ -38,7 +40,12 @@
 		{@const position = setup[type].length - i - 1}
 		{@const startModulus = 10 ** position}
 
-		<RollingDigit start={start / startModulus} period={digitPeriod * period * 10} {seximal} {paused}
+		<RollingDigit
+			start={start / startModulus}
+			period={digitPeriod * period * 10}
+			{seximal}
+			{paused}
+			{rollAggressive}
 		></RollingDigit>
 	{/each}
 

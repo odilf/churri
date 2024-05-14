@@ -40,13 +40,16 @@ function millisecondsToUnit(milliseconds: number, unit: Unit) {
 export function parseTime(milliseconds: number): [number, Record<Unit, number>] {
 	const toUnit = (unit: Unit) => millisecondsToUnit(milliseconds, unit);
 
-	return [milliseconds, {
-		millisecond: toUnit("millisecond") % durations.millisecondsInSecond,
-		second: toUnit("second") % durations.secondsInMinute,
-		minute: toUnit("minute") % durations.minutesInHour,
-		hour: toUnit("hour") % durations.hoursInDay,
-		day: toUnit("day"),
-	}];
+	return [
+		milliseconds,
+		{
+			millisecond: toUnit("millisecond") % durations.millisecondsInSecond,
+			second: toUnit("second") % durations.secondsInMinute,
+			minute: toUnit("minute") % durations.minutesInHour,
+			hour: toUnit("hour") % durations.hoursInDay,
+			day: toUnit("day"),
+		},
+	];
 }
 
 export function timeUntil(target: Date) {

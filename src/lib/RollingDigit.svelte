@@ -4,13 +4,20 @@
 		period: number;
 		seximal?: boolean;
 		paused?: boolean;
+		rollAggressive?: boolean;
 	};
 </script>
 
 <script lang="ts">
 	import "./roll.css";
 
-	let { period, start, seximal = false, paused = false }: RollingDigitProps = $props();
+	let {
+		period,
+		start,
+		seximal = false,
+		paused = false,
+		rollAggressive = false,
+	}: RollingDigitProps = $props();
 
 	let length = $derived(seximal ? 6 : 10);
 	let digits = $derived([...Array.from({ length }, (_, i) => i), 0].toReversed());
@@ -27,6 +34,7 @@
 			style:--length={length}
 			class="rolling"
 			class:paused
+			class:roll-aggressive={rollAggressive}
 		>
 			{digit}
 		</div>

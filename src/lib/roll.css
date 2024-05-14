@@ -14,6 +14,10 @@
 	animation-play-state: paused;
 }
 
+.roll-aggressive {
+	animation-name: count, move-down-aggressive;
+}
+
 @property --big-offset {
 	syntax: "<percentage>";
 	initial-value: 0%;
