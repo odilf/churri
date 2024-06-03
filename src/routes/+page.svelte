@@ -3,5 +3,5 @@
 </script>
 
 <main class="h-screen w-screen grid place-content-center font-mono text-md">
-	<Countdown target={new Date(2024, 4, 28, 22)}></Countdown>
+	<Countdown target={new Date(2024, 5, 14, 18)}></Countdown>
 </main>
