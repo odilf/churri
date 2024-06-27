@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Countdown from "$lib/Countdown.svelte";
+	import Countdown from "./Countdown.svelte";
 </script>
 
 <main class="h-screen w-screen grid place-content-center font-mono text-md">

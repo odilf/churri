@@ -56,10 +56,12 @@ export function timeUntil(target: Date) {
 	return parseTime(millisecondsUntil(target));
 }
 
-export const unitToSpanish: Record<Unit, string> = {
-	millisecond: "milisegundo",
-	second: "segundo",
-	minute: "minuto",
-	hour: "hora",
-	day: "día",
+const pluralWithS = (word: string) => (amount: number) => amount == 1 ? word : word + "s"
+
+export const unitToSpanish: Record<Unit, (amount: number) => string> = {
+	millisecond: pluralWithS("milisegundo"),
+	second: pluralWithS("segundo"),
+	minute: pluralWithS("minuto"),
+	hour: pluralWithS("hora"),
+	day: pluralWithS("día"),
 };

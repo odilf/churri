@@ -1,55 +1,37 @@
 <script lang="ts">
-	import type { Snippet } from "svelte";
+	import type { ComponentProps } from "svelte";
 	import RollingDigit from "./RollingDigit.svelte";
+	import { digits as getDigits } from "./number";
+	import { flip } from "svelte/animate";
+	import { fly } from "svelte/transition";
 
 	let {
-		start,
-		type = "tens",
-		period,
-		paused = false,
-		rollAggressive = false,
-		children,
+		value,
+		length = "auto",
+		digitProps,
 	}: {
-		start: number;
-		type: "units" | "tens" | "hundreds" | "sexagesimal";
-		period: number;
-		paused?: boolean;
-		rollAggressive?: boolean;
-		children?: Snippet;
+		value: number;
+		length?: "auto" | number;
+		digitProps?: (position: number) => Partial<Exclude<ComponentProps<RollingDigit>, "digit">>;
 	} = $props();
 
-	const setup: Record<typeof type, { seximal?: boolean; period: number }[]> = {
-		units: [{ period: 1 }],
+	let digits = $derived.by(() => {
+		const digits = getDigits(value);
 
-		tens: [{ period: 10 }, { period: 1 }],
+		if (length !== "auto") {
+			while (digits.length < length) {
+				digits.unshift("0");
+			}
+		}
 
-		hundreds: [{ period: 100 }, { period: 10 }, { period: 1 }],
-
-		sexagesimal: [
-			{
-				seximal: true,
-				period: 6,
-			},
-			{ period: 1 },
-		],
-	};
+		return digits;
+	});
 </script>
 
-<div class="flex">
-	{#each setup[type] as { seximal, period: digitPeriod }, i}
-		{@const position = setup[type].length - i - 1}
-		{@const startModulus = 10 ** position}
-
-		<RollingDigit
-			start={start / startModulus}
-			period={digitPeriod * period * 10}
-			{seximal}
-			{paused}
-			{rollAggressive}
-		></RollingDigit>
+<div class="flex w-fit">
+	{#each digits as digit, i (digits.length - i)}
+		<div class="w-[1ch]" animate:flip transition:fly={{ y: 20 }}>
+			<RollingDigit {...digitProps && digitProps(digits.length - i)} {digit} />
+		</div>
 	{/each}
-
-	{#if children}
-		<span class="pl-[0.3ch]"> {@render children()} </span>
-	{/if}
 </div>
