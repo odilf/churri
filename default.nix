@@ -1,13 +1,4 @@
-{
-  pkgs,
-
-  # https://kit.svelte.dev/docs/adapter-node#environment-variables-port-host-and-socket-path
-  port ? 2001,
-  # Can't be just `host` because it conflicts with package (and I prefer to not have to do
-  # [this](https://github.com/nixos/nixpkgs/commit/d17f0f9cbca38fabb71624f069cd4c0d6feace92))
-  serverHost ? null,
-  socketPath ? null,
-}:
+{ pkgs }:
 pkgs.stdenv.mkDerivation (finalAttrs: rec {
   pname = "churri";
   version = "0.1.0";
@@ -49,11 +40,6 @@ pkgs.stdenv.mkDerivation (finalAttrs: rec {
     " > $out/bin/${pname}
 
     chmod +x $out/bin/${pname}
-
-    wrapProgram $out/bin/${pname} \
-      --set PORT ${builtins.toString port} \
-      ${if serverHost != null then "--set HOST ${serverHost}" else ""} \
-      ${if socketPath != null then "--set SOCKET_PATH ${socketPath}" else ""} \
 
     runHook postInstall
   '';
