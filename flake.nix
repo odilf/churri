@@ -22,5 +22,8 @@
 
         formatter = pkgs.nixfmt-rfc-style;
       }
-    );
+    )
+    // {
+      nixosModules.default = import ./module.nix;
+    };
 }
