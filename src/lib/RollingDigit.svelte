@@ -38,7 +38,7 @@
 
 		// TODO: What happens when a new transition is received mid-transition
 		await new Promise((resolve) => {
-			if (finishTransitionTimeout) {
+			if (finishTransitionTimeout != null) {
 				clearTimeout(finishTransitionTimeout);
 			}
 

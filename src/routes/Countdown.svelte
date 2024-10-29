@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { periods, timeUntil, unitToSpanish, type Unit } from "$lib/time";
 	import RollingNumber from "$lib/RollingNumber.svelte";
-	import { fade, fly } from "svelte/transition";
+	import { fly } from "svelte/transition";
 
 	let {
 		target,

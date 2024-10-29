@@ -68,27 +68,4 @@
 	<Test title="reach 0">
 		<Countdown target={new Date(Date.now())} />
 	</Test>
-
-	<!-- {@render array( -->
-	<!-- 	"Aligned", -->
-	<!-- 	periods(5000).map((period) => ({ -->
-	<!-- 		period, -->
-	<!-- 		range: [1, 3], -->
-	<!-- 	})), -->
-	<!-- )} -->
-
-	<!-- {@render array( -->
-	<!-- 	"Start at half", -->
-	<!-- 	[1000, 500, 250, 125].map((period) => ({ period, start: period / 2 })), -->
-	<!-- )} -->
 </main>
-
-{#snippet array(title, props)}
-	<Test {title}>
-		<div class="flex justify-center gap-4 text-3xl font-mono">
-			{#each props as props}
-				<RollingNumber {...props} />
-			{/each}
-		</div>
-	</Test>
-{/snippet}

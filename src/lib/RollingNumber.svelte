@@ -12,7 +12,7 @@
 	}: {
 		value: number;
 		length?: "auto" | number;
-		digitProps?: (position: number) => Partial<Exclude<ComponentProps<RollingDigit>, "digit">>;
+		digitProps?: (position: number) => Partial<Exclude<ComponentProps<typeof RollingDigit>, "digit">>;
 	} = $props();
 
 	let digits = $derived.by(() => {
