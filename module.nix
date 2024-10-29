@@ -11,8 +11,6 @@ let
   # Taken from immich
   commonServiceConfig = {
     Type = "simple";
-    Restart = "on-failure";
-    RestartSec = 3;
 
     # Hardening
     CapabilityBoundingSet = "";
