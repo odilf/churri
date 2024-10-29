@@ -24,7 +24,7 @@
 		}
 
 		onDigitChange({ from: oldDigit, to: digit });
-			oldDigit = digit;
+		oldDigit = digit;
 	});
 
 	type Transition<T = Digit> = {

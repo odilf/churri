@@ -74,7 +74,7 @@ in
     description = "Countdown timer";
     after = [ "network.target" ];
     wantedBy = [ "multi-user.target" ];
-    
+
     serviceConfig = commonServiceConfig // {
       ExecStart = "${pkgs.nodejs}/bin/node ${churri-pkg}/build";
       StateDirectory = "churri";

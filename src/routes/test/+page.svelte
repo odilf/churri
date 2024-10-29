@@ -2,7 +2,7 @@
 	import RollingNumber from "$lib/RollingNumber.svelte";
 	import { onDestroy } from "svelte";
 	import Test from "./Test.svelte";
-	import Countdown from "../Countdown.svelte"
+	import Countdown from "../Countdown.svelte";
 
 	let manualTestValue = $state(0);
 	let autoIncreaseTestValue = $state(10);
@@ -10,18 +10,18 @@
 	const autoIncreaseInterval = setInterval(() => (autoIncreaseTestValue += 1), 500);
 
 	function intoBinaryValue(value: number) {
-		const output = []
+		const output = [];
 		while (value > 0) {
-			output.push(value & 1)
-			value >>= 1
+			output.push(value & 1);
+			value >>= 1;
 		}
 
 		return output.reduceRight((a, b) => a * 10 + b, 0);
 	}
 
 	onDestroy(() => {
-		clearInterval(autoIncreaseInterval)
-	})
+		clearInterval(autoIncreaseInterval);
+	});
 </script>
 
 <main class="max-w-xl mx-auto py-8">
@@ -41,18 +41,23 @@
 
 	<Test title="auto increase">
 		<div class="flex gap-2 justify-center text-4xl">
-			<RollingNumber value={autoIncreaseTestValue} digitProps={(i) => ({
-				transitionDuration: 300 + 100 * i 
-			})}/>
+			<RollingNumber
+				value={autoIncreaseTestValue}
+				digitProps={(i) => ({
+					transitionDuration: 300 + 100 * i,
+				})}
+			/>
 		</div>
 	</Test>
 
 	<Test title="binary counter">
-
 		<div class="flex justify-center text-4xl">
-			<RollingNumber value={intoBinaryValue(autoIncreaseTestValue)} digitProps={(i) => ({
-				transitionDuration: 100 + 100 * i
-			})}/>
+			<RollingNumber
+				value={intoBinaryValue(autoIncreaseTestValue)}
+				digitProps={(i) => ({
+					transitionDuration: 100 + 100 * i,
+				})}
+			/>
 		</div>
 	</Test>
 
