@@ -8,7 +8,6 @@ pkgs.stdenv.mkDerivation (finalAttrs: rec {
   nativeBuildInputs = [
     pkgs.nodejs
     pkgs.pnpm.configHook
-    pkgs.makeWrapper
   ];
 
   pnpmDeps = pkgs.pnpm.fetchDeps {
