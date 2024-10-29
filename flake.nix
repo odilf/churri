@@ -20,6 +20,16 @@
           default = pkgs.callPackage ./default.nix { };
         };
 
+        devShell = pkgs.mkShell {
+          buildInputs = [
+            pkgs.pnpm
+          ];
+
+          shellHook = ''
+            pnpm install
+          '';
+        };
+
         formatter = pkgs.nixfmt-rfc-style;
       }
     )
