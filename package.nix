@@ -1,22 +1,29 @@
-{ pkgs }:
-pkgs.stdenv.mkDerivation (finalAttrs: rec {
+{
+  nodejs,
+  pnpm_9,
+  bash,
+  stdenv,
+}:
+stdenv.mkDerivation (finalAttrs: rec {
   pname = "churri";
   version = "0.1.0";
 
-  src = pkgs.lib.cleanSource ./.;
+  src = ./.;
 
   nativeBuildInputs = [
-    pkgs.nodejs
-    pkgs.pnpm.configHook
+    nodejs
+    pnpm_9.configHook
   ];
 
-  pnpmDeps = pkgs.pnpm.fetchDeps {
+  pnpmDeps = pnpm_9.fetchDeps {
     inherit (finalAttrs) pname version src;
-    hash = "sha256-i1dJ7PQ84/2pGFhu6b9s3yM4LOWfNdcPm2BrcqhqgR8=";
+    hash = "sha256-ZOrxjOEpVGO7xkQxwsSseg3cksRPH0rbJEa3hbqe9EI=";
   };
 
   buildPhase = ''
     runHook preBuild
+
+    ls -l
 
     pnpm run build
 
@@ -34,8 +41,8 @@ pkgs.stdenv.mkDerivation (finalAttrs: rec {
 
     mkdir -p $out/bin
     echo "
-      #!${pkgs.bash}/bin/bash 
-      ${pkgs.nodejs}/bin/node $out/build
+    #!${bash}/bin/bash 
+    ${nodejs}/bin/node $out/build
     " > $out/bin/${pname}
 
     chmod +x $out/bin/${pname}

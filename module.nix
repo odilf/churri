@@ -6,7 +6,7 @@
 }:
 let
   cfg = config.services.churri;
-  churri-pkg = pkgs.callPackage ./default.nix { };
+  churri-pkg = pkgs.callPackage ./package.nix { };
 
   # Taken from immich
   commonServiceConfig = {

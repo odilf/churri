@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/5633bcff0c6162b9e4b5f1264264611e950c8ec7"; # Problem with pnpm.fetchDeps
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -17,12 +17,13 @@
       in
       {
         packages = {
-          default = pkgs.callPackage ./default.nix { };
+          default = pkgs.callPackage ./package.nix { };
         };
 
         devShell = pkgs.mkShell {
           buildInputs = [
-            pkgs.pnpm
+            pkgs.pnpm_9
+            pkgs.nodejs
           ];
 
           shellHook = ''
