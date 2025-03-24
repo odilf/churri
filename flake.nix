@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/5633bcff0c6162b9e4b5f1264264611e950c8ec7"; # Problem with pnpm.fetchDeps
+    nixpkgs.url = "github:NixOS/nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -22,7 +22,7 @@
 
         devShell = pkgs.mkShell {
           buildInputs = [
-            pkgs.pnpm_9
+            pkgs.pnpm_10
             pkgs.nodejs
           ];
 

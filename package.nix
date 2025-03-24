@@ -1,51 +1,48 @@
 {
   nodejs,
-  pnpm_9,
+  pnpm_10,
   bash,
   stdenv,
+  lib,
 }:
 stdenv.mkDerivation (finalAttrs: rec {
   pname = "churri";
   version = "0.1.0";
 
-  src = ./.;
+  src = lib.cleanSource ./.;
 
   nativeBuildInputs = [
     nodejs
-    pnpm_9.configHook
+    pnpm_10.configHook
   ];
 
-  pnpmDeps = pnpm_9.fetchDeps {
+  pnpmDeps = pnpm_10.fetchDeps {
     inherit (finalAttrs) pname version src;
-    hash = "sha256-ZOrxjOEpVGO7xkQxwsSseg3cksRPH0rbJEa3hbqe9EI=";
+    hash = "sha256-MT0l4mACcsCEultFO+wxnGWQK+hfLVoQZcD/CVELXXw=";
   };
-
-  buildPhase = ''
-    runHook preBuild
-
-    ls -l
-
-    pnpm run build
-
-    runHook postBuild
-  '';
 
   installPhase = ''
     runHook preInstall
 
     mkdir -p $out
+
+    pnpm run build
     cp -r build $out/build
 
     pnpm prune --prod
+    # Clean up broken symlinks left behind by `pnpm prune`
+    # https://github.com/pnpm/pnpm/issues/3645
+    find node_modules -xtype l -delete
+
     cp -r node_modules package.json $out/
 
     mkdir -p $out/bin
-    echo "
+    echo "\
     #!${bash}/bin/bash 
     ${nodejs}/bin/node $out/build
     " > $out/bin/${pname}
 
-    chmod +x $out/bin/${pname}
+    chmod ugo+x $out/bin/${pname}
 
     runHook postInstall
   '';
